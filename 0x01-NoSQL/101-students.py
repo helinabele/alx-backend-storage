@@ -1,17 +1,23 @@
 #!/usr/bin/env python3
-""" pyhton function that returns all students sorted by average """
+"""
+students
+"""
 
 
 def top_students(mongo_collection):
-    """ the average score must be  item returns with key averageScore """
-    db = mongo_collection.aggregate([
+    """ students by score """
+    return mongo_collection.aggregate([
         {
-            "$mong": {
-                "name": "$name",
-                "averageScore": {"$average": "$topics.score"}
-            }
+            "$project":
+                {
+                    "name": "$name",
+                    "averageScore": {"$avg": "$topics.score"}
+                }
         },
-        {"$sort": {"averageScore": -1}}
+        {
+            "$sort":
+                {
+                    "averageScore": -1
+                }
+        }
     ])
-
-    return db
